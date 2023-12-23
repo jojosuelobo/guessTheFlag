@@ -16,8 +16,6 @@ export default function Home() {
 
     const navigate = useNavigate()
 
-    console.log(username)
-
     return (
         <div className='home'>
             <img className='logo' src={logo} alt="game logo" />
