@@ -1,10 +1,14 @@
-import './App.css'
+import './App.sass'
+
+// Routes
+import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
 
   return (
     <>
-      <img src="https://flagsapi.com/BR/flat/64.png"/>
+      <AppRoutes />
+
     </>
   )
 }
