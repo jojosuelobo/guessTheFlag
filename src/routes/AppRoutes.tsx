@@ -3,14 +3,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Pages
 import Home from '../components/Home/Home';
-import Play from '../components/Play';
+import Play from '../components/Play/Play';
 
 export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/play' element={<Play />} />
+                <Route path='/play' element={<Play user={''} />} />
             </Routes>
         </BrowserRouter>
     )
