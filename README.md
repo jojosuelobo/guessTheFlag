@@ -1,4 +1,4 @@
 ###API para as bandeiras 
-* https://flagsapi.com/#countries
+* https://flagpedia.net/download/api
 Exemplo de uso:
-``<img src="https://flagsapi.com/BR/flat/64.png"/>``
+``<img src="https://flagcdn.com/ua.svg" width="30" alt="Ukraine">``
