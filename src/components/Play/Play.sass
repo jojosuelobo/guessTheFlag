@@ -6,6 +6,7 @@
     height: 100vh
     .lifeAndFlag
         display: flex
+        justify-content: center
         margin: 2rem
         gap: 4.5rem
         .lifes
@@ -15,15 +16,24 @@
             align-items: center
             gap: 3rem
             .icon
-                font-size: 5rem
+                width: 4rem
+                height: auto
+                max-width: 100%
+                //font-size: 5rem
                 color: red
         img
-            width: 50em
+            width: 50%
+            height: auto
+            max-width: 100%
     .playForm
         display: flex
         flex-direction: column
+        align-items: center
         margin: 1rem
         gap: 2rem
+        width: 50vw
+        .formInput
+            width: 50vw !important
         .formsButtons
             display: flex
             gap: 3rem

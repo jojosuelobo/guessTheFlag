@@ -36,6 +36,7 @@ export default function Play({ }: Props) {
       </div>
       <div className='playForm'>
         <TextField.Input
+          className='formInput'
           size="3"
           placeholder="País"
           required
