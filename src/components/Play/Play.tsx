@@ -64,7 +64,9 @@ export default function Play({ }: Props) {
           <FaHeart className='icon' />
           <FaHeart className='icon' />
         </div>
-        <img src={IMAGE} />
+        <div className='img'>
+          <img src={IMAGE} />
+        </div>
       </div>
       <div className='playForm'>
         <TextField.Input
