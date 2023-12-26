@@ -9,10 +9,15 @@ import { useLocation } from 'react-router-dom';
 import { Button, TextField } from '@radix-ui/themes'
 
 // React
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // Icons
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+
+// Sample
+import { sampleSize } from 'lodash';
+
+import countries from '../../contries/countries.json'
 
 interface Props {
   user: string
@@ -21,8 +26,35 @@ interface Props {
 export default function Play({ }: Props) {
   const { state: { username } } = useLocation();
   const [anwser, setAnwser] = useState<string>('')
-  const [hint, setHint] = useState<boolean>(false)
+  const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
+
+  const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
+  const [hints, setHints] = useState<any[]>([]);
+
+  const getRandomCountry = () => {
+    const newRandomCountry = sampleSize(countries, 1)[0];
+    setRandomCountry(newRandomCountry);
+  };
+
+  useEffect(() => {
+    generateHints();
+  }, [randomCountry]);
+
+  const generateHints = () => {
+    // Adiciona randomCountry aos hints
+    const newHints = [randomCountry];
+
+    // Adiciona mais três países aleatórios aos hints
+    const additionalCountries = sampleSize(countries.filter(country => country !== randomCountry), 3);
+    newHints.push(...additionalCountries);
+
+    // Embaralha a ordem dos hints
+    setHints(sampleSize(newHints, newHints.length));
+  };
+
+  console.log(randomCountry)
+  console.log(hints)
 
   return (
     <div className='play'>
@@ -40,9 +72,9 @@ export default function Play({ }: Props) {
           size="3"
           placeholder="País"
           required
-          disabled={hint}
+          disabled={hintIsActive}
           onChange={(e) => setAnwser(e.target.value)} />
-        {hint ? (
+        {hintIsActive ? (
           <div className='formsHint'>
             <div className='option'>
               <Button
@@ -85,7 +117,7 @@ export default function Play({ }: Props) {
               size="4"
               radius="full"
               className='Playbtn hintButton'
-              onClick={() => setHint(true)}
+              onClick={() => setHintIsActive(true)}
             > Dica
             </Button>
           </div>
