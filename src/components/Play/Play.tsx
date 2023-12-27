@@ -82,7 +82,7 @@ export default function Play({ }: Props) {
   }
 
   useEffect(() => {
-    if(life === 0){
+    if (life === 0) {
       navigate('/end', { state: { username, points } })
     }
   }, [life])
@@ -137,14 +137,14 @@ export default function Play({ }: Props) {
               <Button
                 size="4"
                 radius="full"
-                className='Playbtn submitButton'
+                className='btn' 
                 onClick={() => handleSubmitHint(hints[0]?.nome_pais)}
               > {hints[0]?.nome_pais}
               </Button>
               <Button
                 size="4"
                 radius="full"
-                className='Playbtn submitButton'
+                className='btn'
                 onClick={() => handleSubmitHint(hints[1]?.nome_pais)}
               > {hints[1]?.nome_pais}
               </Button>
@@ -153,14 +153,14 @@ export default function Play({ }: Props) {
               <Button
                 size="4"
                 radius="full"
-                className='Playbtn submitButton'
+                className='btn'
                 onClick={() => handleSubmitHint(hints[2]?.nome_pais)}
               > {hints[2]?.nome_pais}
               </Button>
               <Button
                 size="4"
                 radius="full"
-                className='Playbtn submitButton'
+                className='btn'
                 onClick={() => handleSubmitHint(hints[3]?.nome_pais)}
               > {hints[3]?.nome_pais}
               </Button>
@@ -177,7 +177,7 @@ export default function Play({ }: Props) {
             <Button
               size="4"
               radius="full"
-              className='Playbtn hintButton'
+              className='btn'
               onClick={() => activeHint()}
             > Dica
             </Button>

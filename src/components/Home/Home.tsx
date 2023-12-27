@@ -33,7 +33,7 @@ export default function Home() {
                                     <Button
                                         size="4"
                                         radius="full"
-                                        className='homeButton'
+                                        className='btn'
                                         onClick={() => navigate('/play', { state: { username } })}
                                     > COMEÇAR
                                     </Button>
@@ -48,7 +48,7 @@ export default function Home() {
                             <Button
                                 size="4"
                                 radius="full"
-                                className='homeButton'
+                                className='btn'
                                 onClick={() => setSelectNicknameScreen(false)}
                             >
                                 VOLTAR
@@ -56,8 +56,8 @@ export default function Home() {
                         </form>
                     ) : (
                         <div className='homeOptions'>
-                            <Button size="4" radius="full" className='homeButton' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
-                            <Button size="4" radius="full" className='homeButton'>RANKING</Button>
+                            <Button size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
+                            <Button size="4" radius="full" className='btn'>RANKING</Button>
                         </div>
                     )
                 }

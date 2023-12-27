@@ -4,3 +4,14 @@
   margin: 0;
   padding: 0;
 }
+
+.btn{
+    background: black;
+    cursor: pointer;
+    transition: background 0.6s ease;
+}
+.btn:hover{
+        color: black;
+        background: #f1f1f1;
+        border: 1px solid black;
+}
