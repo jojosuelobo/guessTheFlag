@@ -83,7 +83,7 @@ export default function Play({ }: Props) {
 
   useEffect(() => {
     if(life === 0){
-      navigate('/end', { state: { username } })
+      navigate('/end', { state: { username, points } })
     }
   }, [life])
 

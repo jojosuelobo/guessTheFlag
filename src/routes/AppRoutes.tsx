@@ -12,7 +12,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/play' element={<Play user={''} />} />
-                <Route path='/end' element={<End user={''} />} />
+                <Route path='/end' element={<End user={''} points={0} />} />
             </Routes>
         </BrowserRouter>
     )
