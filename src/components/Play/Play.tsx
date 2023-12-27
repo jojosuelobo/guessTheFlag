@@ -2,7 +2,7 @@
 import './Play.sass'
 
 // Router dom
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Radix 
 import { Button, TextField } from '@radix-ui/themes'
@@ -31,6 +31,8 @@ export default function Play({ }: Props) {
 
   const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
   const [hints, setHints] = useState<any[]>([]);
+
+  const navigate = useNavigate()
 
   const getRandomCountry = () => {
     const newRandomCountry = sampleSize(countries, 1)[0];
@@ -78,6 +80,12 @@ export default function Play({ }: Props) {
     setHintIsActive(true)
     setAnwser('')
   }
+
+  useEffect(() => {
+    if(life === 0){
+      navigate('/end', { state: { username } })
+    }
+  }, [life])
 
   return (
     <div className='play'>
@@ -164,8 +172,7 @@ export default function Play({ }: Props) {
               size="4"
               radius="full"
               className='Playbtn submitButton'
-              onClick={handleSubmit}
-            > Enviar
+            > TESTE
             </Button> */}
             <Button
               size="4"
