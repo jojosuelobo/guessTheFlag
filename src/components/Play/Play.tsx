@@ -53,18 +53,30 @@ export default function Play({ }: Props) {
     setHints(sampleSize(newHints, newHints.length));
   };
 
-  const handleSubmit = () => {
-    getRandomCountry()
-  }
-
   const handleSubmitHint = (guess: string) => {
-    if (guess === randomCountry.nome_pais){
+    if (guess === randomCountry.nome_pais) {
       setPoints(points + 1)
       getRandomCountry()
+      setHintIsActive(false)
     } else {
       setLife(life - 1)
       getRandomCountry()
+      setHintIsActive(false)
     }
+  }
+
+  const writingAnwser = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnwser(e.target.value)
+    if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
+      setPoints(points + 1)
+      setAnwser('')
+      getRandomCountry()
+    }
+  }
+
+  const activeHint = () => {
+    setHintIsActive(true)
+    setAnwser('')
   }
 
   return (
@@ -109,7 +121,8 @@ export default function Play({ }: Props) {
           placeholder="País"
           required
           disabled={hintIsActive}
-          onChange={(e) => setAnwser(e.target.value)} />
+          value={anwser}
+          onChange={(e) => writingAnwser(e)} />
         {hintIsActive ? (
           <div className='formsHint'>
             <div className='option'>
@@ -147,18 +160,18 @@ export default function Play({ }: Props) {
           </div>
         ) : (
           <div className='formsButtons'>
-            <Button
+            {/* <Button
               size="4"
               radius="full"
               className='Playbtn submitButton'
               onClick={handleSubmit}
             > Enviar
-            </Button>
+            </Button> */}
             <Button
               size="4"
               radius="full"
               className='Playbtn hintButton'
-              onClick={() => setHintIsActive(true)}
+              onClick={() => activeHint()}
             > Dica
             </Button>
           </div>
