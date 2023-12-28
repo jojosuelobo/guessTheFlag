@@ -61,6 +61,9 @@ export default function Play({ }: Props) {
 
     // Embaralha a ordem dos hints
     setHints(sampleSize(newHints, newHints.length));
+
+    randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
+    hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
   const giveAnwserCountry = () => {
@@ -141,9 +144,6 @@ export default function Play({ }: Props) {
       }, (1000 * timeoutInSeconds));
     }
   }, [life])
-
-  randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
-  hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
 
   return (
     <div className='play'>

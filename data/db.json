@@ -1,12 +1,19 @@
 {
-    "ranking": [
-        {
-            "username": "admin",
-            "points": "5"
-        },
-        {
-            "username": "paulo",
-            "points": "2"
-        }
-    ]
+  "ranking": [
+    {
+      "id": "1",
+      "username": "admin",
+      "points": "5"
+    },
+    {
+      "id": "70",
+      "username": "JOSUE",
+      "points": 3
+    },
+    {
+      "id": "80",
+      "username": "TESTE",
+      "points": 6
+    }
+  ]
 }

@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 type Props = {}
 
 interface RankingItem {
+    id: string
     username: string;
     points: string;
 }
@@ -63,7 +64,7 @@ export default function Ranking({ }: Props) {
 
                         <Table.Body className='body'>
                             {rankingData.map((item, index) => (
-                                <Table.Row className='row' key={index}>
+                                <Table.Row className='row' key={item.id}>
                                     <Table.RowHeaderCell>#{index + 1}</Table.RowHeaderCell>
                                     <Table.Cell className='cell'>{item.username}</Table.Cell>
                                     <Table.Cell>{item.points}</Table.Cell>
