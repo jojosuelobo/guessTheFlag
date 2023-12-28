@@ -103,7 +103,7 @@ export default function Play({ }: Props) {
         setClass1('')
         setClass2('')
         setClass3('')
-      }, (1000*timeoutInSeconds));
+      }, (1000 * timeoutInSeconds));
     } else {
       setLife(life - 1)
       giveAnwserCountry()
@@ -115,7 +115,7 @@ export default function Play({ }: Props) {
         setClass1('')
         setClass2('')
         setClass3('')
-      }, (1000*timeoutInSeconds));
+      }, (1000 * timeoutInSeconds));
     }
   }
 
@@ -135,7 +135,10 @@ export default function Play({ }: Props) {
 
   useEffect(() => {
     if (life === 0) {
-      navigate('/end', { state: { username, points } })
+      giveAnwserCountry()
+      setTimeout(() => {
+        navigate('/end', { state: { username, points } })
+      }, (1000 * timeoutInSeconds));
     }
   }, [life])
 
