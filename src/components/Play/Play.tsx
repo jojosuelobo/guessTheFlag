@@ -32,6 +32,14 @@ export default function Play({ }: Props) {
   const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
   const [hints, setHints] = useState<any[]>([]);
 
+  const [class0, setClass0] = useState<string>('')
+  const [class1, setClass1] = useState<string>('')
+  const [class2, setClass2] = useState<string>('')
+  const [class3, setClass3] = useState<string>('')
+  const [disabledStatus, setDisabledStatus] = useState<boolean>(false)
+
+  const timeoutInSeconds = 1.5
+
   const navigate = useNavigate()
 
   const getRandomCountry = () => {
@@ -55,15 +63,59 @@ export default function Play({ }: Props) {
     setHints(sampleSize(newHints, newHints.length));
   };
 
+  const giveAnwserCountry = () => {
+    if (randomCountry.nome_pais === hints[0]?.nome_pais) {
+      setClass0('success')
+      setClass1('error')
+      setClass2('error')
+      setClass3('error')
+    }
+    if (randomCountry.nome_pais === hints[1]?.nome_pais) {
+      setClass0('error')
+      setClass1('success')
+      setClass2('error')
+      setClass3('error')
+    }
+    if (randomCountry.nome_pais === hints[2]?.nome_pais) {
+      setClass0('error')
+      setClass1('error')
+      setClass2('success')
+      setClass3('error')
+    }
+    if (randomCountry.nome_pais === hints[3]?.nome_pais) {
+      setClass0('error')
+      setClass1('error')
+      setClass2('error')
+      setClass3('success')
+    }
+    setDisabledStatus(true)
+  }
+
   const handleSubmitHint = (guess: string) => {
     if (guess === randomCountry.nome_pais) {
       setPoints(points + 1)
-      getRandomCountry()
-      setHintIsActive(false)
+      giveAnwserCountry()
+      setTimeout(() => {
+        getRandomCountry()
+        setDisabledStatus(false)
+        setHintIsActive(false)
+        setClass0('')
+        setClass1('')
+        setClass2('')
+        setClass3('')
+      }, (1000*timeoutInSeconds));
     } else {
       setLife(life - 1)
-      getRandomCountry()
-      setHintIsActive(false)
+      giveAnwserCountry()
+      setTimeout(() => {
+        getRandomCountry()
+        setDisabledStatus(false)
+        setHintIsActive(false)
+        setClass0('')
+        setClass1('')
+        setClass2('')
+        setClass3('')
+      }, (1000*timeoutInSeconds));
     }
   }
 
@@ -87,11 +139,12 @@ export default function Play({ }: Props) {
     }
   }, [life])
 
+  randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
+  hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
+
   return (
     <div className='play'>
-      <div>{randomCountry.nome_pais}</div>
-      {`${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`}
-      <div>{points}</div>
+      <h1>Pontuação: {points}</h1  >
       <div className='lifeAndFlag'>
         <div className='lifes'>
           {life === 3 && (
@@ -137,14 +190,16 @@ export default function Play({ }: Props) {
               <Button
                 size="4"
                 radius="full"
-                className='btn' 
+                className={`btn ${class0}`}
+                disabled={disabledStatus}
                 onClick={() => handleSubmitHint(hints[0]?.nome_pais)}
               > {hints[0]?.nome_pais}
               </Button>
               <Button
                 size="4"
                 radius="full"
-                className='btn'
+                className={`btn ${class1}`}
+                disabled={disabledStatus}
                 onClick={() => handleSubmitHint(hints[1]?.nome_pais)}
               > {hints[1]?.nome_pais}
               </Button>
@@ -153,14 +208,16 @@ export default function Play({ }: Props) {
               <Button
                 size="4"
                 radius="full"
-                className='btn'
+                className={`btn ${class2}`}
+                disabled={disabledStatus}
                 onClick={() => handleSubmitHint(hints[2]?.nome_pais)}
               > {hints[2]?.nome_pais}
               </Button>
               <Button
                 size="4"
                 radius="full"
-                className='btn'
+                className={`btn ${class3}`}
+                disabled={disabledStatus}
                 onClick={() => handleSubmitHint(hints[3]?.nome_pais)}
               > {hints[3]?.nome_pais}
               </Button>
