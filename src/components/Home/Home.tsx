@@ -57,7 +57,7 @@ export default function Home() {
                     ) : (
                         <div className='homeOptions'>
                             <Button size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
-                            <Button size="4" radius="full" className='btn'>RANKING</Button>
+                            <Button size="4" radius="full" className='btn' onClick={() => navigate('/ranking')}>RANKING</Button>
                         </div>
                     )
                 }

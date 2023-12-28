@@ -3,6 +3,10 @@
         {
             "username": "admin",
             "points": "5"
+        },
+        {
+            "username": "paulo",
+            "points": "2"
         }
     ]
 }
