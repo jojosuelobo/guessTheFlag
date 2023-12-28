@@ -8,8 +8,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "dev": "vite",
-    "server": "json-server --watch data/db.json",
-    "teste": "npm run dev && npm run server"
+    "db": "json-server --watch data/db.json",
+    "start": "concurrently --kill-others \"npm run db\" \"npm run dev\""
   },
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
@@ -31,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
