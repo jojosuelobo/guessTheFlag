@@ -4,6 +4,31 @@
       "id": "1",
       "username": "admin",
       "points": "5"
+    },
+    {
+      "id": "0",
+      "username": "SOCORRO",
+      "points": 4
+    },
+    {
+      "id": "53",
+      "username": "PIROCUDO",
+      "points": 0
+    },
+    {
+      "id": "79",
+      "username": "PIROCUDO",
+      "points": 1
+    },
+    {
+      "id": "51",
+      "username": "PISTOLA",
+      "points": 1
+    },
+    {
+      "id": "30",
+      "username": "invalid",
+      "points": 0
     }
   ]
 }

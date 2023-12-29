@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@radix-ui/themes'
 
 // React
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 // Icons
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -18,16 +18,22 @@ import { sampleSize } from 'lodash';
 
 import countries from '../../contries/countries.json'
 
+// Context
+import { GameContext } from '../../context/context'
+
 interface Props {
   user: string
 }
 
 export default function Play({ }: Props) {
-  const { state: { username } } = useLocation();
+  const { username, points, setPoints } = useContext(GameContext)
+  console.log(username)
+
+  //const { state: { username } } = useLocation();
   const [anwser, setAnwser] = useState<string>('')
   const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
-  const [points, setPoints] = useState<number>(0)
+  //const [points, setPoints] = useState<number>(0)
 
   const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
   const [hints, setHints] = useState<any[]>([]);
@@ -140,10 +146,29 @@ export default function Play({ }: Props) {
     if (life === 0) {
       giveAnwserCountry()
       setTimeout(() => {
-        navigate('/end', { state: { username, points } })
+        //navigate('/end', { state: { username, points } })
+        navigate('/end')
       }, (1000 * timeoutInSeconds));
     }
   }, [life])
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const confirmationMessage = 'Tem certeza que deseja sair?';
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [])
+
+  useEffect(() => {
+    if(username === 'invalid'){
+      navigate('/')
+    }
+  }, [])
 
   return (
     <div className='play'>

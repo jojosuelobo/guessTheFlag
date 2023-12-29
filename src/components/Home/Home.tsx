@@ -1,18 +1,24 @@
 // Styles
 import './Home.sass'
+
 // Images
 import logo from '../../images/worldFlag.png'
 
 // React
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 // Radix UI
 import { Button, TextField } from '@radix-ui/themes'
 import { useNavigate } from 'react-router-dom'
 
+// Context
+import { GameContext } from '../../context/context'
+
 export default function Home() {
+    const {username, setUsername} = useContext(GameContext)
+
     const [selectNicknameScreen, setSelectNicknameScreen] = useState<boolean>(false)
-    const [username, setUsername] = useState<string>('');
+    //const [username, setUsername] = useState<string>('');
 
     const navigate = useNavigate()
 
@@ -34,7 +40,8 @@ export default function Home() {
                                         size="4"
                                         radius="full"
                                         className='btn'
-                                        onClick={() => navigate('/play', { state: { username } })}
+                                        onClick={() => navigate('/play')}
+                                    //onClick={() => navigate('/play', { state: { username } })}
                                     > COMEÇAR
                                     </Button>
                                 ) : (
