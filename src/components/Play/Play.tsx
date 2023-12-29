@@ -25,15 +25,19 @@ interface Props {
   user: string
 }
 
+// interface Country {
+//   gentilico: string,
+//   nome_pais: string,
+//   nome_pais_int: string,
+//   sigla: string
+// }
+
 export default function Play({ }: Props) {
   const { username, points, setPoints } = useContext(GameContext)
-  console.log(username)
 
-  //const { state: { username } } = useLocation();
   const [anwser, setAnwser] = useState<string>('')
   const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
-  //const [points, setPoints] = useState<number>(0)
 
   const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
   const [hints, setHints] = useState<any[]>([]);
@@ -43,6 +47,8 @@ export default function Play({ }: Props) {
   const [class2, setClass2] = useState<string>('')
   const [class3, setClass3] = useState<string>('')
   const [disabledStatus, setDisabledStatus] = useState<boolean>(false)
+
+  //const [countriesUsed, setCountriesUsed] = useState<Country>()
 
   const timeoutInSeconds = 1.5
 
@@ -146,7 +152,6 @@ export default function Play({ }: Props) {
     if (life === 0) {
       giveAnwserCountry()
       setTimeout(() => {
-        //navigate('/end', { state: { username, points } })
         navigate('/end')
       }, (1000 * timeoutInSeconds));
     }
@@ -165,7 +170,7 @@ export default function Play({ }: Props) {
   }, [])
 
   useEffect(() => {
-    if(username === 'invalid'){
+    if (username === 'invalid') {
       navigate('/')
     }
   }, [])
@@ -199,7 +204,6 @@ export default function Play({ }: Props) {
 
         </div>
         <div className='img'>
-          {/* <img src={`https://flagsapi.com/${randomCountry.sigla}/flat/64.png`} /> */}
           <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img>
         </div>
       </div>
@@ -253,12 +257,6 @@ export default function Play({ }: Props) {
           </div>
         ) : (
           <div className='formsButtons'>
-            {/* <Button
-              size="4"
-              radius="full"
-              className='Playbtn submitButton'
-            > TESTE
-            </Button> */}
             <Button
               size="4"
               radius="full"

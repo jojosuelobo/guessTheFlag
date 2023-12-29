@@ -18,7 +18,6 @@ export default function Home() {
     const {username, setUsername} = useContext(GameContext)
 
     const [selectNicknameScreen, setSelectNicknameScreen] = useState<boolean>(false)
-    //const [username, setUsername] = useState<string>('');
 
     const navigate = useNavigate()
 
@@ -41,7 +40,6 @@ export default function Home() {
                                         radius="full"
                                         className='btn'
                                         onClick={() => navigate('/play')}
-                                    //onClick={() => navigate('/play', { state: { username } })}
                                     > COMEÇAR
                                     </Button>
                                 ) : (

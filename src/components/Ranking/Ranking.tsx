@@ -13,6 +13,8 @@ import axios from 'axios'
 // React
 import { useEffect, useState } from 'react'
 
+import { orderBy } from 'lodash';
+
 type Props = {}
 
 interface RankingItem {
@@ -30,16 +32,14 @@ export default function Ranking({ }: Props) {
         const fetchRankingData = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/ranking');
-                setRankingData(response.data);
+                const sortedApiResponse = orderBy(response.data, ['points'], ['desc']);
+                setRankingData(sortedApiResponse);
             } catch (error) {
                 console.error('Erro ao buscar dados do ranking:', error);
             }
         };
-
         fetchRankingData();
     }, []);
-
-    console.log(rankingData)
 
     return (
         <div className='context'>

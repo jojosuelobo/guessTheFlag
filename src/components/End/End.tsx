@@ -11,6 +11,8 @@ import { Button } from '@radix-ui/themes'
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
 
+import {v4 as uuidv4} from 'uuid';
+
 // Context
 import { GameContext } from '../../context/context'
 
@@ -28,9 +30,7 @@ interface User {
 
 export default function End({ }: Props) {
   const {username, points} = useContext(GameContext)
-  // const { state: { username } } = useLocation();
-  // const { state: { points } } = useLocation();
-  const id = (Math.floor((Math.random()*100))).toString()
+  const id = uuidv4()  
 
   const [newUser, setNewUser] = useState<User>({
     id: id,
