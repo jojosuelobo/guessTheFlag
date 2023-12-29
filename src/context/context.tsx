@@ -8,7 +8,7 @@ export const GameContext = createContext({} as any);
 
 export const Context = ({ children }: IProvider) => {
 
-    const [username, setUsername] = useState<string>('invalid');
+    const [username, setUsername] = useState<string>('');
     const [points, setPoints] = useState<number>(0)
 
     return (

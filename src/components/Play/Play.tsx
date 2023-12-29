@@ -35,6 +35,12 @@ interface Props {
 export default function Play({ }: Props) {
   const { username, points, setPoints } = useContext(GameContext)
 
+  useEffect(() => {
+    if (username === '') {
+      navigate('/')
+    }
+  }, [])
+
   const [anwser, setAnwser] = useState<string>('')
   const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
@@ -167,12 +173,6 @@ export default function Play({ }: Props) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [])
-
-  useEffect(() => {
-    if (username === 'invalid') {
-      navigate('/')
-    }
   }, [])
 
   return (

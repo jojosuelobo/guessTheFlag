@@ -11,7 +11,7 @@ import { Button } from '@radix-ui/themes'
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
 
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 // Context
 import { GameContext } from '../../context/context'
@@ -29,8 +29,9 @@ interface User {
 
 
 export default function End({ }: Props) {
-  const {username, points} = useContext(GameContext)
-  const id = uuidv4()  
+
+  const { username, points } = useContext(GameContext)
+  const id = uuidv4()
 
   const [newUser, setNewUser] = useState<User>({
     id: id,
@@ -42,16 +43,19 @@ export default function End({ }: Props) {
 
   useEffect(() => {
     const sendPostRequest = async () => {
-      try {
-        await axios.post('http://localhost:3000/ranking', newUser);
-        console.log('Usuário criado com sucesso!');
-      } catch (error) {
-        console.error('Erro ao criar usuário:', error);
-      }
-    };
-
+      if (username === '') {
+        navigate('/')
+      } else {
+        try {
+          await axios.post('http://localhost:3000/ranking', newUser);
+          console.log('Usuário criado com sucesso!');
+        } catch (error) {
+          console.error('Erro ao criar usuário:', error);
+        }
+      };
+    }
     sendPostRequest();
-  }, []);
+  }, [username]);
 
   return (
     <div className='endContent'>
