@@ -2,7 +2,7 @@
 import './Play.sass'
 
 // Router dom
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Radix 
 import { Button, TextField } from '@radix-ui/themes'

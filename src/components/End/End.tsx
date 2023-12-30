@@ -2,7 +2,7 @@
 import './End.sass'
 
 // Router dom
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Radix 
 import { Button } from '@radix-ui/themes'
@@ -33,7 +33,7 @@ export default function End({ }: Props) {
   const { username, points } = useContext(GameContext)
   const id = uuidv4()
 
-  const [newUser, setNewUser] = useState<User>({
+  const [newUser] = useState<User>({
     id: id,
     username: username,
     points: points,
@@ -41,19 +41,20 @@ export default function End({ }: Props) {
 
   const navigate = useNavigate()
 
+  const sendPostRequest = async () => {
+    if (username === '') {
+      navigate('/')
+    } else {
+      try {
+        await axios.post('http://localhost:3000/ranking', newUser);
+        console.log('Usuário criado com sucesso!');
+        return
+      } catch (error) {
+        console.error('Erro ao criar usuário:', error);
+      }
+    };
+  }
   useEffect(() => {
-    const sendPostRequest = async () => {
-      if (username === '') {
-        navigate('/')
-      } else {
-        try {
-          await axios.post('http://localhost:3000/ranking', newUser);
-          console.log('Usuário criado com sucesso!');
-        } catch (error) {
-          console.error('Erro ao criar usuário:', error);
-        }
-      };
-    }
     sendPostRequest();
   }, [username]);
 
