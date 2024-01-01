@@ -12,10 +12,12 @@ import { useState, useEffect, useContext } from 'react'
 
 // Icons
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { AiOutlineLoading } from "react-icons/ai";
 
 // Sample
 import { sampleSize } from 'lodash';
 
+// Países
 import countries from '../../contries/countries.json'
 
 // Context
@@ -25,12 +27,12 @@ interface Props {
   user: string
 }
 
-// interface Country {
-//   gentilico: string,
-//   nome_pais: string,
-//   nome_pais_int: string,
-//   sigla: string
-// }
+interface Country {
+  gentilico: string,
+  nome_pais: string,
+  nome_pais_int: string,
+  sigla: string
+}
 
 export default function Play({ }: Props) {
   const { username, points, setPoints } = useContext(GameContext)
@@ -45,7 +47,7 @@ export default function Play({ }: Props) {
   const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
 
-  const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
+  const [randomCountry, setRandomCountry] = useState<null | Country>(null);
   const [hints, setHints] = useState<any[]>([]);
 
   const [class0, setClass0] = useState<string>('')
@@ -54,7 +56,7 @@ export default function Play({ }: Props) {
   const [class3, setClass3] = useState<string>('')
   const [disabledStatus, setDisabledStatus] = useState<boolean>(false)
 
-  //const [countriesUsed, setCountriesUsed] = useState<Country>()
+  const [loading, setLoading] = useState<boolean>(true)
 
   const timeoutInSeconds = 1.5
 
@@ -64,10 +66,6 @@ export default function Play({ }: Props) {
     const newRandomCountry = sampleSize(countries, 1)[0];
     setRandomCountry(newRandomCountry);
   };
-
-  useEffect(() => {
-    generateHints();
-  }, [randomCountry]);
 
   const generateHints = () => {
     // Adiciona randomCountry aos hints
@@ -84,68 +82,82 @@ export default function Play({ }: Props) {
     hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
+  useEffect(() => {
+    getRandomCountry();
+  }, []);
+
+  useEffect(() => {
+    generateHints();
+  }, [randomCountry]);
+
   const giveAnwserCountry = () => {
-    if (randomCountry.nome_pais === hints[0]?.nome_pais) {
-      setClass0('success')
-      setClass1('error')
-      setClass2('error')
-      setClass3('error')
+    if (randomCountry) {
+      if (randomCountry.nome_pais === hints[0]?.nome_pais) {
+        setClass0('success')
+        setClass1('error')
+        setClass2('error')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[1]?.nome_pais) {
+        setClass0('error')
+        setClass1('success')
+        setClass2('error')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[2]?.nome_pais) {
+        setClass0('error')
+        setClass1('error')
+        setClass2('success')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[3]?.nome_pais) {
+        setClass0('error')
+        setClass1('error')
+        setClass2('error')
+        setClass3('success')
+      }
+      setDisabledStatus(true)
     }
-    if (randomCountry.nome_pais === hints[1]?.nome_pais) {
-      setClass0('error')
-      setClass1('success')
-      setClass2('error')
-      setClass3('error')
-    }
-    if (randomCountry.nome_pais === hints[2]?.nome_pais) {
-      setClass0('error')
-      setClass1('error')
-      setClass2('success')
-      setClass3('error')
-    }
-    if (randomCountry.nome_pais === hints[3]?.nome_pais) {
-      setClass0('error')
-      setClass1('error')
-      setClass2('error')
-      setClass3('success')
-    }
-    setDisabledStatus(true)
   }
 
   const handleSubmitHint = (guess: string) => {
-    if (guess === randomCountry.nome_pais) {
-      setPoints(points + 1)
-      giveAnwserCountry()
-      setTimeout(() => {
-        getRandomCountry()
-        setDisabledStatus(false)
-        setHintIsActive(false)
-        setClass0('')
-        setClass1('')
-        setClass2('')
-        setClass3('')
-      }, (1000 * timeoutInSeconds));
-    } else {
-      setLife(life - 1)
-      giveAnwserCountry()
-      setTimeout(() => {
-        getRandomCountry()
-        setDisabledStatus(false)
-        setHintIsActive(false)
-        setClass0('')
-        setClass1('')
-        setClass2('')
-        setClass3('')
-      }, (1000 * timeoutInSeconds));
+    if (randomCountry) {
+      if (guess === randomCountry.nome_pais) {
+        setPoints(points + 1)
+        giveAnwserCountry()
+        setTimeout(() => {
+          getRandomCountry()
+          setDisabledStatus(false)
+          setHintIsActive(false)
+          setClass0('')
+          setClass1('')
+          setClass2('')
+          setClass3('')
+        }, (1000 * timeoutInSeconds));
+      } else {
+        setLife(life - 1)
+        giveAnwserCountry()
+        setTimeout(() => {
+          getRandomCountry()
+          setDisabledStatus(false)
+          setHintIsActive(false)
+          setClass0('')
+          setClass1('')
+          setClass2('')
+          setClass3('')
+        }, (1000 * timeoutInSeconds));
+      }
     }
   }
 
   const writingAnwser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnwser(e.target.value)
-    if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
-      setPoints(points + 1)
-      setAnwser('')
-      getRandomCountry()
+    if (randomCountry) {
+      if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
+        setPoints(points + 1)
+        setAnwser('')
+        getRandomCountry()
+      }
     }
   }
 
@@ -204,7 +216,7 @@ export default function Play({ }: Props) {
 
         </div>
         <div className='img'>
-          <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img>
+          {randomCountry ? (<img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img>) : (<AiOutlineLoading />)}
         </div>
       </div>
       <div className='playForm'>
