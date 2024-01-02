@@ -18,7 +18,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { sampleSize } from 'lodash';
 
 // Países
-  import countries from '../../contries/countries.json'
+import countries from '../../contries/countries.json'
 
 // Context
 import { GameContext } from '../../context/context'
@@ -59,7 +59,8 @@ export default function Play({ }: Props) {
   const [class3, setClass3] = useState<string>('')
   const [disabledStatus, setDisabledStatus] = useState<boolean>(false)
 
-  const [loading, setLoading] = useState<boolean>(true)
+  const [usedCountries, setUsedCountries] = useState<any[]>([]);
+  const [win, setWin] = useState<boolean>(false)
 
   const timeoutInSeconds = 1.5
 
@@ -78,15 +79,22 @@ export default function Play({ }: Props) {
   };
 
   const getRandomCountry = async () => {
-    //const newRandomCountry = sampleSize(countries, 1)[0];
-    //setRandomCountry(newRandomCountry);
+    const remainingCountries = countries.filter(country => !usedCountries.some(usedCountry => usedCountry.sigla === country.sigla));
 
-    const newRandomCountry = sampleSize(countries, 1)[0];
+    if (remainingCountries.length === 0) {
+      // Todos os países já foram utilizados, faça o que for necessário nesse caso
+      setWin(true)
+      return;
+    }
+
+    const newRandomCountry = sampleSize(remainingCountries, 1)[0];
+
     // Verifica se a bandeira do novo país está disponível
     const isFlagAvailable = await fetchFlag(newRandomCountry.sigla);
+
     if (isFlagAvailable) {
       setRandomCountry(newRandomCountry);
-      setLoading(false)
+      setUsedCountries(prevUsedCountries => [...prevUsedCountries, newRandomCountry]);
     } else {
       // Se a bandeira não estiver disponível, tenta novamente
       getRandomCountry();
@@ -153,7 +161,6 @@ export default function Play({ }: Props) {
         giveAnwserCountry()
         setTimeout(() => {
           getRandomCountry()
-          setLoading(true)
           setDisabledStatus(false)
           setHintIsActive(false)
           setClass0('')
@@ -166,7 +173,6 @@ export default function Play({ }: Props) {
         giveAnwserCountry()
         setTimeout(() => {
           getRandomCountry()
-          setLoading(true)
           setDisabledStatus(false)
           setHintIsActive(false)
           setClass0('')
@@ -185,7 +191,6 @@ export default function Play({ }: Props) {
         setPoints(points + 1)
         setAnwser('')
         getRandomCountry()
-        setLoading(true)
       }
     }
   }
@@ -203,6 +208,15 @@ export default function Play({ }: Props) {
       }, (1000 * timeoutInSeconds));
     }
   }, [life])
+
+  useEffect(() => {
+    if (win) {
+      giveAnwserCountry()
+      setTimeout(() => {
+        navigate('/end')
+      }, (1000 * timeoutInSeconds));
+    }
+  }, [win])
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -245,7 +259,7 @@ export default function Play({ }: Props) {
 
         </div>
         <div className='img'>
-          {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading'/>}
+          {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading' />}
           {/* <AiOutlineLoading className='loading' /> */}
         </div>
       </div>
