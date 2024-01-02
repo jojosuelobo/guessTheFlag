@@ -18,10 +18,14 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { sampleSize } from 'lodash';
 
 // Países
-import countries from '../../contries/countries.json'
+//import countries from '../../contries/countries.json'
+import countries from '../../contries/teste.json'
 
 // Context
 import { GameContext } from '../../context/context'
+
+// Axios
+import axios from 'axios';
 
 interface Props {
   user: string
@@ -62,9 +66,31 @@ export default function Play({ }: Props) {
 
   const navigate = useNavigate()
 
-  const getRandomCountry = () => {
+  const fetchFlag = async (sigla: string) => {
+    try {
+      const response = await axios.get(`https://flagcdn.com/${sigla.toLowerCase()}.svg`);
+      if (response.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const getRandomCountry = async () => {
+    //const newRandomCountry = sampleSize(countries, 1)[0];
+    //setRandomCountry(newRandomCountry);
+
     const newRandomCountry = sampleSize(countries, 1)[0];
-    setRandomCountry(newRandomCountry);
+    // Verifica se a bandeira do novo país está disponível
+    const isFlagAvailable = await fetchFlag(newRandomCountry.sigla);
+    if (isFlagAvailable) {
+      setRandomCountry(newRandomCountry);
+    } else {
+      // Se a bandeira não estiver disponível, tenta novamente
+      getRandomCountry();
+    }
   };
 
   const generateHints = () => {

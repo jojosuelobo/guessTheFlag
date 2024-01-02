@@ -1,3 +1,5 @@
+✨
+
 ###API para as bandeiras 
 * https://flagpedia.net/download/api
 Exemplo de uso:
