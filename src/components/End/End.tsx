@@ -30,7 +30,7 @@ interface User {
 
 export default function End({ }: Props) {
 
-  const { username, points } = useContext(GameContext)
+  const { username, points, setPoints } = useContext(GameContext)
   const id = uuidv4()
 
   const [newUser] = useState<User>({
@@ -38,6 +38,8 @@ export default function End({ }: Props) {
     username: username,
     points: points,
   });
+
+  console.log(newUser)
 
   const navigate = useNavigate()
 
@@ -58,6 +60,11 @@ export default function End({ }: Props) {
     sendPostRequest();
   }, [username]);
 
+  const playAgain = () => {
+    setPoints(0)
+    navigate('/play', { state: { username } })
+  }
+
   return (
     <div className='endContent'>
       <div className='endText'>
@@ -77,7 +84,7 @@ export default function End({ }: Props) {
           size="4"
           radius="full"
           className='EndButton'
-          onClick={() => navigate('/play', { state: { username } })}
+          onClick={() => playAgain()}
         > Jogar Novamente
         </Button>
       </div>

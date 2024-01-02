@@ -702,12 +702,6 @@
         "sigla": "MH"
     },
     {
-        "gentilico": "das ilhas menores afastadas",
-        "nome_pais": "Ilhas Menores dos Estados Unidos",
-        "nome_pais_int": "U.S. Outlying Islands",
-        "sigla": "UM"
-    },
-    {
         "gentilico": "norfolquino",
         "nome_pais": "Ilhas Norfolk",
         "nome_pais_int": "Norfolk Island",
@@ -1372,12 +1366,6 @@
         "nome_pais": "Suriname",
         "nome_pais_int": "Suriname",
         "sigla": "SR"
-    },
-    {
-        "gentilico": "svalbardense",
-        "nome_pais": "Svalbard",
-        "nome_pais_int": "Svalbard & Jan Mayen",
-        "sigla": "SJ"
     },
     {
         "gentilico": "tadjique",
