@@ -2,7 +2,7 @@
 import './Play.sass'
 
 // Router dom
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Radix 
 import { Button, TextField } from '@radix-ui/themes'
@@ -12,34 +12,45 @@ import { useState, useEffect, useContext } from 'react'
 
 // Icons
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { AiOutlineLoading } from "react-icons/ai";
 
 // Sample
 import { sampleSize } from 'lodash';
 
-import countries from '../../contries/countries.json'
+// Países
+  import countries from '../../contries/countries.json'
 
 // Context
 import { GameContext } from '../../context/context'
+
+// Axios
+import axios from 'axios';
 
 interface Props {
   user: string
 }
 
-// interface Country {
-//   gentilico: string,
-//   nome_pais: string,
-//   nome_pais_int: string,
-//   sigla: string
-// }
+interface Country {
+  gentilico: string,
+  nome_pais: string,
+  nome_pais_int: string,
+  sigla: string
+}
 
 export default function Play({ }: Props) {
   const { username, points, setPoints } = useContext(GameContext)
+
+  useEffect(() => {
+    if (username === '') {
+      navigate('/')
+    }
+  }, [])
 
   const [anwser, setAnwser] = useState<string>('')
   const [hintIsActive, setHintIsActive] = useState<boolean>(false)
   const [life, setLife] = useState<number>(3)
 
-  const [randomCountry, setRandomCountry] = useState(() => sampleSize(countries, 1)[0]);
+  const [randomCountry, setRandomCountry] = useState<null | Country>(null);
   const [hints, setHints] = useState<any[]>([]);
 
   const [class0, setClass0] = useState<string>('')
@@ -48,20 +59,39 @@ export default function Play({ }: Props) {
   const [class3, setClass3] = useState<string>('')
   const [disabledStatus, setDisabledStatus] = useState<boolean>(false)
 
-  //const [countriesUsed, setCountriesUsed] = useState<Country>()
+  const [loading, setLoading] = useState<boolean>(true)
 
   const timeoutInSeconds = 1.5
 
   const navigate = useNavigate()
 
-  const getRandomCountry = () => {
-    const newRandomCountry = sampleSize(countries, 1)[0];
-    setRandomCountry(newRandomCountry);
+  const fetchFlag = async (sigla: string) => {
+    try {
+      const response = await axios.get(`https://flagcdn.com/${sigla.toLowerCase()}.svg`);
+      if (response.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
   };
 
-  useEffect(() => {
-    generateHints();
-  }, [randomCountry]);
+  const getRandomCountry = async () => {
+    //const newRandomCountry = sampleSize(countries, 1)[0];
+    //setRandomCountry(newRandomCountry);
+
+    const newRandomCountry = sampleSize(countries, 1)[0];
+    // Verifica se a bandeira do novo país está disponível
+    const isFlagAvailable = await fetchFlag(newRandomCountry.sigla);
+    if (isFlagAvailable) {
+      setRandomCountry(newRandomCountry);
+      setLoading(false)
+    } else {
+      // Se a bandeira não estiver disponível, tenta novamente
+      getRandomCountry();
+    }
+  };
 
   const generateHints = () => {
     // Adiciona randomCountry aos hints
@@ -78,68 +108,85 @@ export default function Play({ }: Props) {
     hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
+  useEffect(() => {
+    getRandomCountry();
+  }, []);
+
+  useEffect(() => {
+    generateHints();
+  }, [randomCountry]);
+
   const giveAnwserCountry = () => {
-    if (randomCountry.nome_pais === hints[0]?.nome_pais) {
-      setClass0('success')
-      setClass1('error')
-      setClass2('error')
-      setClass3('error')
+    if (randomCountry) {
+      if (randomCountry.nome_pais === hints[0]?.nome_pais) {
+        setClass0('success')
+        setClass1('error')
+        setClass2('error')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[1]?.nome_pais) {
+        setClass0('error')
+        setClass1('success')
+        setClass2('error')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[2]?.nome_pais) {
+        setClass0('error')
+        setClass1('error')
+        setClass2('success')
+        setClass3('error')
+      }
+      if (randomCountry.nome_pais === hints[3]?.nome_pais) {
+        setClass0('error')
+        setClass1('error')
+        setClass2('error')
+        setClass3('success')
+      }
+      setDisabledStatus(true)
     }
-    if (randomCountry.nome_pais === hints[1]?.nome_pais) {
-      setClass0('error')
-      setClass1('success')
-      setClass2('error')
-      setClass3('error')
-    }
-    if (randomCountry.nome_pais === hints[2]?.nome_pais) {
-      setClass0('error')
-      setClass1('error')
-      setClass2('success')
-      setClass3('error')
-    }
-    if (randomCountry.nome_pais === hints[3]?.nome_pais) {
-      setClass0('error')
-      setClass1('error')
-      setClass2('error')
-      setClass3('success')
-    }
-    setDisabledStatus(true)
   }
 
   const handleSubmitHint = (guess: string) => {
-    if (guess === randomCountry.nome_pais) {
-      setPoints(points + 1)
-      giveAnwserCountry()
-      setTimeout(() => {
-        getRandomCountry()
-        setDisabledStatus(false)
-        setHintIsActive(false)
-        setClass0('')
-        setClass1('')
-        setClass2('')
-        setClass3('')
-      }, (1000 * timeoutInSeconds));
-    } else {
-      setLife(life - 1)
-      giveAnwserCountry()
-      setTimeout(() => {
-        getRandomCountry()
-        setDisabledStatus(false)
-        setHintIsActive(false)
-        setClass0('')
-        setClass1('')
-        setClass2('')
-        setClass3('')
-      }, (1000 * timeoutInSeconds));
+    if (randomCountry) {
+      if (guess === randomCountry.nome_pais) {
+        setPoints(points + 1)
+        giveAnwserCountry()
+        setTimeout(() => {
+          getRandomCountry()
+          setLoading(true)
+          setDisabledStatus(false)
+          setHintIsActive(false)
+          setClass0('')
+          setClass1('')
+          setClass2('')
+          setClass3('')
+        }, (1000 * timeoutInSeconds));
+      } else {
+        setLife(life - 1)
+        giveAnwserCountry()
+        setTimeout(() => {
+          getRandomCountry()
+          setLoading(true)
+          setDisabledStatus(false)
+          setHintIsActive(false)
+          setClass0('')
+          setClass1('')
+          setClass2('')
+          setClass3('')
+        }, (1000 * timeoutInSeconds));
+      }
     }
   }
 
   const writingAnwser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnwser(e.target.value)
-    if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
-      setPoints(points + 1)
-      setAnwser('')
-      getRandomCountry()
+    if (randomCountry) {
+      if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
+        setPoints(points + 1)
+        setAnwser('')
+        getRandomCountry()
+        setLoading(true)
+      }
     }
   }
 
@@ -167,12 +214,6 @@ export default function Play({ }: Props) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [])
-
-  useEffect(() => {
-    if (username === 'invalid') {
-      navigate('/')
-    }
   }, [])
 
   return (
@@ -204,7 +245,8 @@ export default function Play({ }: Props) {
 
         </div>
         <div className='img'>
-          <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img>
+          {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading'/>}
+          {/* <AiOutlineLoading className='loading' /> */}
         </div>
       </div>
       <div className='playForm'>

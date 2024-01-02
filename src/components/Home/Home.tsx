@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { GameContext } from '../../context/context'
 
 export default function Home() {
-    const {username, setUsername} = useContext(GameContext)
+    const { username, setUsername } = useContext(GameContext)
 
     const [selectNicknameScreen, setSelectNicknameScreen] = useState<boolean>(false)
 
