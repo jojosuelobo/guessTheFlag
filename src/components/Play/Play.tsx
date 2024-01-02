@@ -18,8 +18,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { sampleSize } from 'lodash';
 
 // Países
-//import countries from '../../contries/countries.json'
-import countries from '../../contries/teste.json'
+  import countries from '../../contries/countries.json'
 
 // Context
 import { GameContext } from '../../context/context'
@@ -87,6 +86,7 @@ export default function Play({ }: Props) {
     const isFlagAvailable = await fetchFlag(newRandomCountry.sigla);
     if (isFlagAvailable) {
       setRandomCountry(newRandomCountry);
+      setLoading(false)
     } else {
       // Se a bandeira não estiver disponível, tenta novamente
       getRandomCountry();
@@ -153,6 +153,7 @@ export default function Play({ }: Props) {
         giveAnwserCountry()
         setTimeout(() => {
           getRandomCountry()
+          setLoading(true)
           setDisabledStatus(false)
           setHintIsActive(false)
           setClass0('')
@@ -165,6 +166,7 @@ export default function Play({ }: Props) {
         giveAnwserCountry()
         setTimeout(() => {
           getRandomCountry()
+          setLoading(true)
           setDisabledStatus(false)
           setHintIsActive(false)
           setClass0('')
@@ -183,6 +185,7 @@ export default function Play({ }: Props) {
         setPoints(points + 1)
         setAnwser('')
         getRandomCountry()
+        setLoading(true)
       }
     }
   }
@@ -242,7 +245,8 @@ export default function Play({ }: Props) {
 
         </div>
         <div className='img'>
-          {randomCountry ? (<img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img>) : (<AiOutlineLoading />)}
+          {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading'/>}
+          {/* <AiOutlineLoading className='loading' /> */}
         </div>
       </div>
       <div className='playForm'>

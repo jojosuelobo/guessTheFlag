@@ -31,6 +31,11 @@
             img
                 width: 100%
                 max-width: 100%
+            .loading
+                font-size: 5rem
+                text-align: center
+                color: #555
+                animation: spin 1s infinite linear
     .playForm
         display: flex
         flex-direction: column
@@ -63,3 +68,10 @@
                     color: white
                     cursor: default
                     border: none
+
+@keyframes spin
+    from
+        transform: rotate(0deg)
+
+    to
+        transform: rotate(360deg)
