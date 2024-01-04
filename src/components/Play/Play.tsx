@@ -95,6 +95,7 @@ export default function Play({ }: Props) {
     if (isFlagAvailable) {
       setRandomCountry(newRandomCountry);
       setUsedCountries(prevUsedCountries => [...prevUsedCountries, newRandomCountry]);
+      await axios.post('gameAwnser', newRandomCountry);
     } else {
       // Se a bandeira não estiver disponível, tenta novamente
       getRandomCountry();
@@ -260,7 +261,6 @@ export default function Play({ }: Props) {
         </div>
         <div className='img'>
           {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading' />}
-          {/* <AiOutlineLoading className='loading' /> */}
         </div>
       </div>
       <div className='playForm'>
@@ -276,6 +276,8 @@ export default function Play({ }: Props) {
           <div className='formsHint'>
             <div className='option'>
               <Button
+                name='hint1'
+                id='hint1'
                 size="4"
                 radius="full"
                 className={`btn ${class0}`}
@@ -284,6 +286,8 @@ export default function Play({ }: Props) {
               > {hints[0]?.nome_pais}
               </Button>
               <Button
+                name='hint2'
+                id='hint2'
                 size="4"
                 radius="full"
                 className={`btn ${class1}`}
@@ -294,6 +298,8 @@ export default function Play({ }: Props) {
             </div>
             <div className='option'>
               <Button
+                name='hint3'
+                id='hint3'
                 size="4"
                 radius="full"
                 className={`btn ${class2}`}
@@ -302,6 +308,8 @@ export default function Play({ }: Props) {
               > {hints[2]?.nome_pais}
               </Button>
               <Button
+                name='hint4'
+                id='hint4'
                 size="4"
                 radius="full"
                 className={`btn ${class3}`}
@@ -314,6 +322,8 @@ export default function Play({ }: Props) {
         ) : (
           <div className='formsButtons'>
             <Button
+              name='hint'
+              id='hint'
               size="4"
               radius="full"
               className='btn'

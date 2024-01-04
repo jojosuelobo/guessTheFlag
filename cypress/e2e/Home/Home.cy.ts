@@ -2,7 +2,7 @@
 
 describe('Homepage integration tests', () => {
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('')
     })
 
     it('renders the logo image', () => {
