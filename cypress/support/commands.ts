@@ -18,3 +18,6 @@ Cypress.Commands.add('startGameInHomepage', (
     cy.get('[name="usernameInput"]').type(username, {delay: 0})
     cy.get('[name="start"]').click()
 })
+
+Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));
+

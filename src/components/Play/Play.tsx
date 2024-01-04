@@ -95,7 +95,11 @@ export default function Play({ }: Props) {
     if (isFlagAvailable) {
       setRandomCountry(newRandomCountry);
       setUsedCountries(prevUsedCountries => [...prevUsedCountries, newRandomCountry]);
-      await axios.post('gameAwnser', newRandomCountry);
+      await axios.get('gameAwnser', {
+        headers: {
+          answer: `${newRandomCountry.nome_pais}`
+        }
+      });
     } else {
       // Se a bandeira não estiver disponível, tenta novamente
       getRandomCountry();
@@ -113,8 +117,8 @@ export default function Play({ }: Props) {
     // Embaralha a ordem dos hints
     setHints(sampleSize(newHints, newHints.length));
 
-    randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
-    hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
+    //randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
+    //hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
   useEffect(() => {
@@ -265,6 +269,8 @@ export default function Play({ }: Props) {
       </div>
       <div className='playForm'>
         <TextField.Input
+        name='inputCountry'
+        id='inputCountry'
           className='formInput'
           size="3"
           placeholder="País"

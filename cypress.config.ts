@@ -5,6 +5,14 @@ export default defineConfig({
     baseUrl: "http://localhost:5173",
     env: {
       hideCredentials: true,
+    },
+    setupNodeEvents(on, config) {
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null
+        }
+      })
     }
   },
 });

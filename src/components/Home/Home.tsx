@@ -27,7 +27,7 @@ export default function Home() {
             <div>
                 {
                     selectNicknameScreen ? (
-                        <form className='homeOptions'>
+                        <div className='homeOptions'>
                             <TextField.Input
                                 name='usernameInput'
                                 id='usernameInput'
@@ -67,7 +67,7 @@ export default function Home() {
                             >
                                 VOLTAR
                             </Button>
-                        </form>
+                        </div>
                     ) : (
                         <div className='homeOptions'>
                             <Button id='jogar' name='jogar' size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
