@@ -29,6 +29,8 @@ export default function Home() {
                     selectNicknameScreen ? (
                         <form className='homeOptions'>
                             <TextField.Input
+                                name='usernameInput'
+                                id='usernameInput'
                                 size="3"
                                 placeholder="Username"
                                 required
@@ -36,6 +38,8 @@ export default function Home() {
                             {
                                 username ? (
                                     <Button
+                                        name='start'
+                                        id='start'
                                         size="4"
                                         radius="full"
                                         className='btn'
@@ -44,13 +48,18 @@ export default function Home() {
                                     </Button>
                                 ) : (
                                     <Button
+                                        name='start'
+                                        id='start'
                                         size="4"
                                         radius="full"
+                                        disabled
                                     > COMEÇAR
                                     </Button>
                                 )
                             }
                             <Button
+                                name='back'
+                                id='back'
                                 size="4"
                                 radius="full"
                                 className='btn'
@@ -61,8 +70,8 @@ export default function Home() {
                         </form>
                     ) : (
                         <div className='homeOptions'>
-                            <Button size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
-                            <Button size="4" radius="full" className='btn' onClick={() => navigate('/ranking')}>RANKING</Button>
+                            <Button id='jogar' name='jogar' size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
+                            <Button id='ranking' name='ranking' size="4" radius="full" className='btn' onClick={() => navigate('/ranking')}>RANKING</Button>
                         </div>
                     )
                 }
