@@ -8,6 +8,7 @@ declare namespace Cypress {
         startGameInHomepage(username: string): Chainable<any>;
         guessTheFirstFlagCorrectly(): Chainable<any>;
         guessTheFlagCorrectly(): Chainable<any>;
+        guessTheFlagIncorrectly(): Chainable<any>;
     }
 }
 
@@ -32,5 +33,23 @@ Cypress.Commands.add('guessTheFlagCorrectly', () => {
     cy.wait('@AnswerFetch').then((interception) => {
         const answer = interception.request.headers.answer
         cy.get('[name="inputCountry"]').should('be.visible').clear().type(`${answer}`, { delay: 0 })
+    });
+})
+
+Cypress.Commands.add('guessTheFlagIncorrectly', () => {
+    cy.intercept({
+        method: 'GET',
+        url: '**/gameAwnser',
+    }).as('AnswerFetch');
+
+    let answer
+    cy.wait('@AnswerFetch').then((interception) => {
+        answer = interception.request.headers.answer
+        cy.get('[name="hint"]').click()
+        cy.get('.formsHint button').then((buttons) => {
+            const correctButton = buttons.filter(`:contains("${answer}")`);
+            const incorrectButton = buttons.not(correctButton);
+            cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+        });
     });
 })

@@ -55,22 +55,59 @@ describe('Game integration tests', () => {
             });
         });
     })
-    it.only('give the INCORRECT answer after guessing by hint', () => {
+
+    it('give the INCORRECT answer after guessing by hint', () => {
         let answer
         cy.wait('@AnswerFetch').then((interception) => {
             answer = interception.request.headers.answer
             cy.wait('@AnswerFetch').then((interception) => {
                 answer = interception.request.headers.answer
                 cy.get('[name="hint"]').click()
-
-                // cy.contains(`${answer}`).click()
-                // cy.get('.formsHint button').contains(`${answer}`).should('have.css', 'background-color', 'rgb(0, 128, 0)')
                 cy.get('.formsHint button').then((buttons) => {
                     const correctButton = buttons.filter(`:contains("${answer}")`);
                     const incorrectButton = buttons.not(correctButton);
                     cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
                 });
             });
+        });
+    })
+
+    Cypress._.times(100, () => {
+        it.only('loses a heart after guess the incorrect flag', () => {
+            const guessTheFlagIncorrectly = () => {
+                let answer
+                cy.wait('@AnswerFetch').then((interception) => {
+                    answer = interception.request.headers.answer
+                    cy.get('[name="hint"]').click()
+                    cy.get('.formsHint button').then((buttons) => {
+                        const correctButton = buttons.filter(`:contains("${answer}")`);
+                        const incorrectButton = buttons.not(correctButton);
+                        cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    });
+                });
+            }
+
+            cy.get('[name="heart"]').should('have.length', 3)
+            let answer
+            cy.wait('@AnswerFetch').then((interception) => {
+                answer = interception.request.headers.answer
+                cy.wait('@AnswerFetch').then((interception) => {
+                    answer = interception.request.headers.answer
+                    cy.get('[name="hint"]').click()
+                    cy.get('.formsHint button').then((buttons) => {
+                        const correctButton = buttons.filter(`:contains("${answer}")`);
+                        const incorrectButton = buttons.not(correctButton);
+                        cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    });
+                });
+            });
+
+            cy.get('[name="heart"]').should('have.length', 2)
+            cy.get('[name="heartless"]').should('have.length', 1)
+
+            guessTheFlagIncorrectly()
+            cy.get('[name="heart"]').should('have.length', 1)
+            cy.get('[name="heartless"]').should('have.length', 2)
         });
     })
 })

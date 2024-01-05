@@ -242,23 +242,23 @@ export default function Play({ }: Props) {
         <div className='lifes'>
           {life === 3 && (
             <div>
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
           {life === 2 && (
             <div>
-              <FaRegHeart className='icon' />
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
           {life === 1 && (
             <div>
-              <FaRegHeart className='icon' />
-              <FaRegHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
 
