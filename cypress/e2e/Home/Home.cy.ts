@@ -11,7 +11,6 @@ describe('Homepage integration tests', () => {
 
     context('Buttons on Homepage', () => {
         it('opens username input after JOGAR', () => {
-            //cy.get('[name="jogar"]').click()
             cy.clickInJogarButton()
             cy.get('[name="usernameInput"]').should('exist').and('be.visible')
             cy.get('[name="start"]').should('be.disabled')

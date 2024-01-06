@@ -1,29 +1,9 @@
 {
   "ranking": [
     {
-      "id": "b66f254f-20be-402e-95af-e3ae94335616",
+      "id": "1",
       "username": "jojosue",
       "points": 18
-    },
-    {
-      "id": "c51ec05f-dd0f-4d18-8c72-42f010c37b44",
-      "username": "username",
-      "points": 0
-    },
-    {
-      "id": "792528f7-5d46-4194-a198-b91ff56aaf1a",
-      "username": "username",
-      "points": 0
-    },
-    {
-      "id": "cb2feac8-6521-4682-a683-67c75040aac0",
-      "username": "username",
-      "points": 0
-    },
-    {
-      "id": "2fa07e7f-fff7-46e6-9cf5-8e859cf72075",
-      "username": "cypress",
-      "points": 0
     }
   ]
 }

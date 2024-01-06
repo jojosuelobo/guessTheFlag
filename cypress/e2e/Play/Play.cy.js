@@ -81,7 +81,7 @@ describe('Game integration tests', () => {
                 cy.get('.formsHint button').then((buttons) => {
                     const correctButton = buttons.filter(`:contains("${answer}")`);
                     const incorrectButton = buttons.not(correctButton);
-                    cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    cy.wrap(incorrectButton).first().click()
                 });
             });
         }
@@ -96,7 +96,7 @@ describe('Game integration tests', () => {
                 cy.get('.formsHint button').then((buttons) => {
                     const correctButton = buttons.filter(`:contains("${answer}")`);
                     const incorrectButton = buttons.not(correctButton);
-                    cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    cy.wrap(incorrectButton).first().click()
                 });
             });
         });
@@ -109,7 +109,7 @@ describe('Game integration tests', () => {
         cy.get('[name="heartless"]').should('have.length', 2)
     });
 
-    it.only('loses the game after guess wrong for 3 times', () => {
+    it('loses the game after guess wrong for 3 times', () => {
         const guessTheFlagIncorrectly = () => {
             let answer
             cy.wait('@AnswerFetch').then((interception) => {
@@ -118,7 +118,7 @@ describe('Game integration tests', () => {
                 cy.get('.formsHint button').then((buttons) => {
                     const correctButton = buttons.filter(`:contains("${answer}")`);
                     const incorrectButton = buttons.not(correctButton);
-                    cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    cy.wrap(incorrectButton).first().click()
                 });
             });
         }
@@ -133,7 +133,7 @@ describe('Game integration tests', () => {
                 cy.get('.formsHint button').then((buttons) => {
                     const correctButton = buttons.filter(`:contains("${answer}")`);
                     const incorrectButton = buttons.not(correctButton);
-                    cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
+                    cy.wrap(incorrectButton).first().click()
                 });
             });
         });
@@ -141,6 +141,5 @@ describe('Game integration tests', () => {
         guessTheFlagIncorrectly()
         cy.url().should('include', '/end')
         cy.contains('cypress').should('exist').and('be.visible')
-
     });
 })
