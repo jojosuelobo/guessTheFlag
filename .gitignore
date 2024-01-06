@@ -24,4 +24,16 @@ dist-ssr
 *.sln
 *.sw?
 
-/data/db.json
+# Cypress
+cypress/logs
+pids
+*.pid
+*.seed
+lib-cov
+.grunt
+.lock-wscript
+build/Release
+cypress/videos
+cypress/screenshots
+.history
+env

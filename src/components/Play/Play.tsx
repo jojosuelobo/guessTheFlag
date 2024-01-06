@@ -95,6 +95,11 @@ export default function Play({ }: Props) {
     if (isFlagAvailable) {
       setRandomCountry(newRandomCountry);
       setUsedCountries(prevUsedCountries => [...prevUsedCountries, newRandomCountry]);
+      await axios.get('gameAwnser', {
+        headers: {
+          answer: `${newRandomCountry.nome_pais}`
+        }
+      });
     } else {
       // Se a bandeira não estiver disponível, tenta novamente
       getRandomCountry();
@@ -112,8 +117,8 @@ export default function Play({ }: Props) {
     // Embaralha a ordem dos hints
     setHints(sampleSize(newHints, newHints.length));
 
-    randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
-    hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
+    //randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
+    //hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
   useEffect(() => {
@@ -237,34 +242,35 @@ export default function Play({ }: Props) {
         <div className='lifes'>
           {life === 3 && (
             <div>
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
           {life === 2 && (
             <div>
-              <FaRegHeart className='icon' />
-              <FaHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
           {life === 1 && (
             <div>
-              <FaRegHeart className='icon' />
-              <FaRegHeart className='icon' />
-              <FaHeart className='icon' />
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaRegHeart className='icon' name='heartless'/>
+              <FaHeart className='icon' name='heart'/>
             </div>
           )}
 
         </div>
         <div className='img'>
           {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading' />}
-          {/* <AiOutlineLoading className='loading' /> */}
         </div>
       </div>
       <div className='playForm'>
         <TextField.Input
+        name='inputCountry'
+        id='inputCountry'
           className='formInput'
           size="3"
           placeholder="País"
@@ -276,6 +282,8 @@ export default function Play({ }: Props) {
           <div className='formsHint'>
             <div className='option'>
               <Button
+                name='hint1'
+                id='hint1'
                 size="4"
                 radius="full"
                 className={`btn ${class0}`}
@@ -284,6 +292,8 @@ export default function Play({ }: Props) {
               > {hints[0]?.nome_pais}
               </Button>
               <Button
+                name='hint2'
+                id='hint2'
                 size="4"
                 radius="full"
                 className={`btn ${class1}`}
@@ -294,6 +304,8 @@ export default function Play({ }: Props) {
             </div>
             <div className='option'>
               <Button
+                name='hint3'
+                id='hint3'
                 size="4"
                 radius="full"
                 className={`btn ${class2}`}
@@ -302,6 +314,8 @@ export default function Play({ }: Props) {
               > {hints[2]?.nome_pais}
               </Button>
               <Button
+                name='hint4'
+                id='hint4'
                 size="4"
                 radius="full"
                 className={`btn ${class3}`}
@@ -314,6 +328,8 @@ export default function Play({ }: Props) {
         ) : (
           <div className='formsButtons'>
             <Button
+              name='hint'
+              id='hint'
               size="4"
               radius="full"
               className='btn'
