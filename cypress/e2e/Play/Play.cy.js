@@ -9,6 +9,11 @@ describe('Game integration tests', () => {
             url: '**/gameAwnser',
         }).as('AnswerFetch');
     })
+
+    after(() => {
+        cy.api_deletePlayers()
+    });
+    
     it('gets a flag', () => {
         cy.intercept('GET', '**flagcdn.com/**', {
             statusCode: 200,
