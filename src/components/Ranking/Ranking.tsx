@@ -11,7 +11,10 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 // React
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+
+// Context
+import { GameContext } from '../../context/context'
 
 import { orderBy } from 'lodash';
 
@@ -24,6 +27,8 @@ interface RankingItem {
 }
 
 export default function Ranking({ }: Props) {
+    const { portuguese } = useContext(GameContext)
+
     const navigate = useNavigate()
 
     const [rankingData, setRankingData] = useState<RankingItem[]>([]);
@@ -48,7 +53,9 @@ export default function Ranking({ }: Props) {
                 radius="full"
                 className='btn rankButton'
                 onClick={() => navigate('/')}
-            >Voltar</Button>
+            >
+                {portuguese ? 'Voltar' : 'Back'}
+            </Button>
 
             <div className='ranking'>
                 <div className='rank'>
@@ -57,7 +64,7 @@ export default function Ranking({ }: Props) {
                             <Table.Row>
                                 <Table.ColumnHeaderCell width="20px" >Rank</Table.ColumnHeaderCell>
                                 <Table.ColumnHeaderCell width="20px">Username</Table.ColumnHeaderCell>
-                                <Table.ColumnHeaderCell width="20px">Pontuação</Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell width="20px">{portuguese ? 'Pontuação' : 'Points'}</Table.ColumnHeaderCell>
                                 <Table.ColumnHeaderCell justify="end"></Table.ColumnHeaderCell>
                             </Table.Row>
                         </Table.Header>

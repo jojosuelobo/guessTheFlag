@@ -30,7 +30,7 @@ interface User {
 
 export default function End({ }: Props) {
 
-  const { username, points, setPoints } = useContext(GameContext)
+  const { username, points, setPoints, portuguese } = useContext(GameContext)
   const id = uuidv4()
 
   const [newUser] = useState<User>({
@@ -69,8 +69,8 @@ export default function End({ }: Props) {
     <div className='endContent'>
       <div className='endText'>
         <h2>{username}</h2>
-        <h1>Você acertou</h1>
-        <h1>{points} países!</h1>
+        <h1> {portuguese ? 'Você acertou' : 'You got'} </h1>
+        <h1>{points} {portuguese ? 'países' : 'flags'}!</h1>
       </div>
       <div className='endButtons'>
         <Button
@@ -78,14 +78,14 @@ export default function End({ }: Props) {
           radius="full"
           className='EndButton'
           onClick={() => navigate('/')}
-        > Menu Principal
+        > {portuguese ? 'Menu Principal' : 'Home Page'}
         </Button>
         <Button
           size="4"
           radius="full"
           className='EndButton'
           onClick={() => playAgain()}
-        > Jogar Novamente
+        > {portuguese ? 'Jogar Novamente' : 'Play Again'}
         </Button>
       </div>
     </div>

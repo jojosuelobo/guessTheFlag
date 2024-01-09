@@ -304,7 +304,7 @@ export default function Play({ }: Props) {
 
   return (
     <div className='play'>
-      <h1>Pontuação: {points}</h1  >
+      <h1>{portuguese ? 'Pontuação' : 'Points'}: {points}</h1>
       <div className='lifeAndFlag'>
         <div className='lifes'>
           {life === 3 && (
@@ -405,7 +405,7 @@ export default function Play({ }: Props) {
               radius="full"
               className='btn'
               onClick={() => activeHint()}
-            > Dica
+            > {portuguese ? 'DICA' : 'HINT'}
             </Button>
           </div>
         )}
