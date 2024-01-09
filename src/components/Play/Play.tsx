@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@radix-ui/themes'
 
 // React
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useLayoutEffect } from 'react'
 
 // Icons
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -39,6 +39,10 @@ interface Country {
 
 export default function Play({ }: Props) {
   const { username, points, setPoints, portuguese } = useContext(GameContext)
+
+  useLayoutEffect(() => {
+    setPoints(0)
+  }, [])
 
   useEffect(() => {
     if (username === '') {
