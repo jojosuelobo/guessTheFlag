@@ -41,6 +41,15 @@ export default function Ranking({ }: Props) {
                 setRankingData(sortedApiResponse);
             } catch (error) {
                 console.error('Erro ao buscar dados do ranking:', error);
+
+                const localStorageRanking = localStorage.getItem('ranking');
+                if (localStorageRanking) {
+                    const parsedRanking = JSON.parse(localStorageRanking);
+                    const sortedLocalStorageRanking = orderBy(parsedRanking, ['points'], ['desc']);
+                    setRankingData(sortedLocalStorageRanking);
+                } else {
+                    console.error('Não foi possível obter o ranking do localStorage.');
+                }
             }
         };
         fetchRankingData();

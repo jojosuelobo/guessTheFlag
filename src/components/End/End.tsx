@@ -50,6 +50,7 @@ export default function End({ }: Props) {
       try {
         await axios.post('http://localhost:3000/ranking', newUser);
         console.log('Usuário criado com sucesso!');
+        saveToLocalStorage(newUser);
         return
       } catch (error) {
         console.error('Erro ao criar usuário:', error);
@@ -64,6 +65,17 @@ export default function End({ }: Props) {
     setPoints(0)
     navigate('/play', { state: { username } })
   }
+
+  const saveToLocalStorage = (user: User) => {
+    // Get existing ranking data from localStorage
+    const existingRanking = JSON.parse(localStorage.getItem('ranking') || '[]');
+
+    // Add the new user to the ranking
+    const updatedRanking = [...existingRanking, user];
+
+    // Save the updated ranking back to localStorage
+    localStorage.setItem('ranking', JSON.stringify(updatedRanking));
+  };
 
   return (
     <div className='endContent'>
