@@ -1,26 +1,36 @@
+@keyframes rotateImage
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
 .home
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 100vh
+
+    // background: url('../../images/background.png')
+  background-position: center
+  background-size: cover
+  .language
+    display: flex
+    gap: 2rem
+    .languageBtn
+      width: 3rem
+      cursor: pointer
+    .active
+      border: 3px solid black
+      border-radius: 100%
+  .logo
+    width: 30%
+    height: auto 
+    max-width: 100%
+    animation: rotateImage 80s linear infinite
+    margin: 2rem
+  .homeOptions
+    margin: 1rem
     display: flex
     flex-direction: column
-    justify-content: center
-    align-items: center
-    height: 100vh
-    
-    // background: url('../../images/background.png')
-    background-position: center
-    background-size: cover
-    .logo
-        width: 30%
-        height: auto
-        max-width: 100%
-        animation: rotateImage 80s linear infinite
-        margin: 2rem
-    .homeOptions
-        margin: 1rem
-        display: flex
-        flex-direction: column
-        gap: 2rem
-@keyframes rotateImage 
-  from 
-    transform: rotate(0deg)
-  to 
-    transform: rotate(360deg)
+    gap: 2rem
+r

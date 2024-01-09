@@ -38,7 +38,7 @@ interface Country {
 }
 
 export default function Play({ }: Props) {
-  const { username, points, setPoints } = useContext(GameContext)
+  const { username, points, setPoints, portuguese } = useContext(GameContext)
 
   useEffect(() => {
     if (username === '') {
@@ -116,9 +116,6 @@ export default function Play({ }: Props) {
 
     // Embaralha a ordem dos hints
     setHints(sampleSize(newHints, newHints.length));
-
-    //randomCountry?.nome_pais && console.log(`RESPOSTA: ${randomCountry.nome_pais}`)
-    //hints[0]?.nome_pais && console.log(`DICAS: ${hints[0]?.nome_pais} | ${hints[1]?.nome_pais} | ${hints[2]?.nome_pais} | ${hints[3]?.nome_pais}`)
   };
 
   useEffect(() => {
@@ -130,72 +127,142 @@ export default function Play({ }: Props) {
   }, [randomCountry]);
 
   const giveAnwserCountry = () => {
-    if (randomCountry) {
-      if (randomCountry.nome_pais === hints[0]?.nome_pais) {
-        setClass0('success')
-        setClass1('error')
-        setClass2('error')
-        setClass3('error')
+    if (portuguese) {
+      if (randomCountry) {
+        if (randomCountry.nome_pais === hints[0]?.nome_pais) {
+          setClass0('success')
+          setClass1('error')
+          setClass2('error')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais === hints[1]?.nome_pais) {
+          setClass0('error')
+          setClass1('success')
+          setClass2('error')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais === hints[2]?.nome_pais) {
+          setClass0('error')
+          setClass1('error')
+          setClass2('success')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais === hints[3]?.nome_pais) {
+          setClass0('error')
+          setClass1('error')
+          setClass2('error')
+          setClass3('success')
+        }
+        setDisabledStatus(true)
       }
-      if (randomCountry.nome_pais === hints[1]?.nome_pais) {
-        setClass0('error')
-        setClass1('success')
-        setClass2('error')
-        setClass3('error')
+    } else {
+      if (randomCountry) {
+        if (randomCountry.nome_pais_int === hints[0]?.nome_pais_int) {
+          setClass0('success')
+          setClass1('error')
+          setClass2('error')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais_int === hints[1]?.nome_pais_int) {
+          setClass0('error')
+          setClass1('success')
+          setClass2('error')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais_int === hints[2]?.nome_pais_int) {
+          setClass0('error')
+          setClass1('error')
+          setClass2('success')
+          setClass3('error')
+        }
+        if (randomCountry.nome_pais_int === hints[3]?.nome_pais_int) {
+          setClass0('error')
+          setClass1('error')
+          setClass2('error')
+          setClass3('success')
+        }
+        setDisabledStatus(true)
       }
-      if (randomCountry.nome_pais === hints[2]?.nome_pais) {
-        setClass0('error')
-        setClass1('error')
-        setClass2('success')
-        setClass3('error')
-      }
-      if (randomCountry.nome_pais === hints[3]?.nome_pais) {
-        setClass0('error')
-        setClass1('error')
-        setClass2('error')
-        setClass3('success')
-      }
-      setDisabledStatus(true)
     }
   }
 
   const handleSubmitHint = (guess: string) => {
-    if (randomCountry) {
-      if (guess === randomCountry.nome_pais) {
-        setPoints(points + 1)
-        giveAnwserCountry()
-        setTimeout(() => {
-          getRandomCountry()
-          setDisabledStatus(false)
-          setHintIsActive(false)
-          setClass0('')
-          setClass1('')
-          setClass2('')
-          setClass3('')
-        }, (1000 * timeoutInSeconds));
-      } else {
-        setLife(life - 1)
-        giveAnwserCountry()
-        setTimeout(() => {
-          getRandomCountry()
-          setDisabledStatus(false)
-          setHintIsActive(false)
-          setClass0('')
-          setClass1('')
-          setClass2('')
-          setClass3('')
-        }, (1000 * timeoutInSeconds));
+    if (portuguese) {
+      if (randomCountry) {
+        if (guess === randomCountry.nome_pais) {
+          setPoints(points + 1)
+          giveAnwserCountry()
+          setTimeout(() => {
+            getRandomCountry()
+            setDisabledStatus(false)
+            setHintIsActive(false)
+            setClass0('')
+            setClass1('')
+            setClass2('')
+            setClass3('')
+          }, (1000 * timeoutInSeconds));
+        } else {
+          setLife(life - 1)
+          giveAnwserCountry()
+          setTimeout(() => {
+            getRandomCountry()
+            setDisabledStatus(false)
+            setHintIsActive(false)
+            setClass0('')
+            setClass1('')
+            setClass2('')
+            setClass3('')
+          }, (1000 * timeoutInSeconds));
+        }
+      }
+    } else {
+      if (randomCountry) {
+        if (guess === randomCountry.nome_pais_int) {
+          setPoints(points + 1)
+          giveAnwserCountry()
+          setTimeout(() => {
+            getRandomCountry()
+            setDisabledStatus(false)
+            setHintIsActive(false)
+            setClass0('')
+            setClass1('')
+            setClass2('')
+            setClass3('')
+          }, (1000 * timeoutInSeconds));
+        } else {
+          setLife(life - 1)
+          giveAnwserCountry()
+          setTimeout(() => {
+            getRandomCountry()
+            setDisabledStatus(false)
+            setHintIsActive(false)
+            setClass0('')
+            setClass1('')
+            setClass2('')
+            setClass3('')
+          }, (1000 * timeoutInSeconds));
+        }
       }
     }
   }
 
   const writingAnwser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnwser(e.target.value)
-    if (randomCountry) {
-      if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
-        setPoints(points + 1)
-        setAnwser('')
-        getRandomCountry()
+    if (portuguese) {
+      if (randomCountry) {
+        if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais).toLocaleLowerCase()) {
+          setPoints(points + 1)
+          setAnwser('')
+          getRandomCountry()
+        }
+      }
+    } else {
+      if (randomCountry) {
+        if ((e.target.value).toLocaleLowerCase() === (randomCountry.nome_pais_int).toLocaleLowerCase()) {
+          setPoints(points + 1)
+          setAnwser('')
+          getRandomCountry()
+        }
       }
     }
   }
@@ -237,40 +304,44 @@ export default function Play({ }: Props) {
 
   return (
     <div className='play'>
-      <h1>Pontuação: {points}</h1  >
+      <h1>{portuguese ? 'Pontuação' : 'Points'}: {points}</h1>
       <div className='lifeAndFlag'>
         <div className='lifes'>
           {life === 3 && (
             <div>
-              <FaHeart className='icon' name='heart'/>
-              <FaHeart className='icon' name='heart'/>
-              <FaHeart className='icon' name='heart'/>
+              <FaHeart className='icon' name='heart' />
+              <FaHeart className='icon' name='heart' />
+              <FaHeart className='icon' name='heart' />
             </div>
           )}
           {life === 2 && (
             <div>
-              <FaRegHeart className='icon' name='heartless'/>
-              <FaHeart className='icon' name='heart'/>
-              <FaHeart className='icon' name='heart'/>
+              <FaRegHeart className='icon' name='heartless' />
+              <FaHeart className='icon' name='heart' />
+              <FaHeart className='icon' name='heart' />
             </div>
           )}
           {life === 1 && (
             <div>
-              <FaRegHeart className='icon' name='heartless'/>
-              <FaRegHeart className='icon' name='heartless'/>
-              <FaHeart className='icon' name='heart'/>
+              <FaRegHeart className='icon' name='heartless' />
+              <FaRegHeart className='icon' name='heartless' />
+              <FaHeart className='icon' name='heart' />
             </div>
           )}
 
         </div>
         <div className='img'>
-          {randomCountry ? <img src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`} alt={`${randomCountry.nome_pais}`}></img> : <AiOutlineLoading className='loading' />}
+          {randomCountry ?
+            <img
+              src={`https://flagcdn.com/${(randomCountry.sigla).toLocaleLowerCase()}.svg`}
+              alt={`${randomCountry.nome_pais}`}></img>
+            : <AiOutlineLoading className='loading' />}
         </div>
       </div>
       <div className='playForm'>
         <TextField.Input
-        name='inputCountry'
-        id='inputCountry'
+          name='inputCountry'
+          id='inputCountry'
           className='formInput'
           size="3"
           placeholder="País"
@@ -288,8 +359,8 @@ export default function Play({ }: Props) {
                 radius="full"
                 className={`btn ${class0}`}
                 disabled={disabledStatus}
-                onClick={() => handleSubmitHint(hints[0]?.nome_pais)}
-              > {hints[0]?.nome_pais}
+                onClick={portuguese ? () => handleSubmitHint(hints[0]?.nome_pais) : () => handleSubmitHint(hints[0]?.nome_pais_int)}
+              > {portuguese ? hints[0]?.nome_pais : hints[0]?.nome_pais_int}
               </Button>
               <Button
                 name='hint2'
@@ -298,8 +369,8 @@ export default function Play({ }: Props) {
                 radius="full"
                 className={`btn ${class1}`}
                 disabled={disabledStatus}
-                onClick={() => handleSubmitHint(hints[1]?.nome_pais)}
-              > {hints[1]?.nome_pais}
+                onClick={portuguese ? () => handleSubmitHint(hints[1]?.nome_pais) : () => handleSubmitHint(hints[1]?.nome_pais_int)}
+              > {portuguese ? hints[1]?.nome_pais : hints[1]?.nome_pais_int}
               </Button>
             </div>
             <div className='option'>
@@ -310,8 +381,8 @@ export default function Play({ }: Props) {
                 radius="full"
                 className={`btn ${class2}`}
                 disabled={disabledStatus}
-                onClick={() => handleSubmitHint(hints[2]?.nome_pais)}
-              > {hints[2]?.nome_pais}
+                onClick={portuguese ? () => handleSubmitHint(hints[2]?.nome_pais) : () => handleSubmitHint(hints[2]?.nome_pais_int)}
+              > {portuguese ? hints[2]?.nome_pais : hints[2]?.nome_pais_int}
               </Button>
               <Button
                 name='hint4'
@@ -320,8 +391,8 @@ export default function Play({ }: Props) {
                 radius="full"
                 className={`btn ${class3}`}
                 disabled={disabledStatus}
-                onClick={() => handleSubmitHint(hints[3]?.nome_pais)}
-              > {hints[3]?.nome_pais}
+                onClick={portuguese ? () => handleSubmitHint(hints[3]?.nome_pais) : () => handleSubmitHint(hints[3]?.nome_pais_int)}
+              > {portuguese ? hints[3]?.nome_pais : hints[3]?.nome_pais_int}
               </Button>
             </div>
           </div>
@@ -334,7 +405,7 @@ export default function Play({ }: Props) {
               radius="full"
               className='btn'
               onClick={() => activeHint()}
-            > Dica
+            > {portuguese ? 'DICA' : 'HINT'}
             </Button>
           </div>
         )}

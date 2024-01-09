@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { GameContext } from '../../context/context'
 
 export default function Home() {
-    const { username, setUsername } = useContext(GameContext)
+    const { username, setUsername, portuguese, setPortuguese } = useContext(GameContext)
 
     const [selectNicknameScreen, setSelectNicknameScreen] = useState<boolean>(false)
 
@@ -23,6 +23,25 @@ export default function Home() {
 
     return (
         <div className='home'>
+            {
+                !selectNicknameScreen && (
+                    <div className='language'>
+                        <img
+                            className={portuguese ? 'languageBtn active' : 'languageBtn'}
+                            onClick={() => setPortuguese(true)}
+                            src="https://hatscripts.github.io/circle-flags/flags/br.svg"
+                            alt='portuguese'
+                        ></img>
+                        <img
+                            className={portuguese ? 'languageBtn' : 'languageBtn active'}
+                            onClick={() => setPortuguese(false)}
+                            src="https://hatscripts.github.io/circle-flags/flags/us.svg"
+                            alt='english'
+                        ></img>
+                    </div>
+                )
+            }
+
             <img className='logo' src={logo} alt="game logo" />
             <div>
                 {
@@ -44,7 +63,7 @@ export default function Home() {
                                         radius="full"
                                         className='btn'
                                         onClick={() => navigate('/play')}
-                                    > COMEÇAR
+                                    > {portuguese ? 'COMEÇAR' : 'START'}
                                     </Button>
                                 ) : (
                                     <Button
@@ -53,7 +72,7 @@ export default function Home() {
                                         size="4"
                                         radius="full"
                                         disabled
-                                    > COMEÇAR
+                                    > {portuguese ? 'COMEÇAR' : 'START'}
                                     </Button>
                                 )
                             }
@@ -65,13 +84,28 @@ export default function Home() {
                                 className='btn'
                                 onClick={() => setSelectNicknameScreen(false)}
                             >
-                                VOLTAR
+                                {portuguese ? 'VOLTAR' : 'BACK'}
                             </Button>
                         </div>
                     ) : (
                         <div className='homeOptions'>
-                            <Button id='jogar' name='jogar' size="4" radius="full" className='btn' onClick={() => setSelectNicknameScreen(true)}>JOGAR</Button>
-                            <Button id='ranking' name='ranking' size="4" radius="full" className='btn' onClick={() => navigate('/ranking')}>RANKING</Button>
+                            <Button
+                                id='jogar'
+                                name='jogar'
+                                size="4"
+                                radius="full"
+                                className='btn'
+                                onClick={() => setSelectNicknameScreen(true)}
+                            > {portuguese ? 'JOGAR' : 'PLAY'}
+                            </Button>
+                            <Button
+                                id='ranking'
+                                name='ranking'
+                                size="4"
+                                radius="full"
+                                className='btn' onClick={() => navigate('/ranking')}
+                            >RANKING
+                            </Button>
                         </div>
                     )
                 }
