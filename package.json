@@ -11,7 +11,7 @@
     "db": "json-server --watch data/db.json",
     "start": "concurrently --kill-others \"npm run db\" \"npm run dev\"",
     "cy:open": "cypress open",
-    "cy: test": "cypress run",
+    "cy:test": "cypress run",
     "cy:test:start": "concurrently --kill-others \"npm run db\" \"npm run dev\" \"cypress run\""
   },
   "dependencies": {

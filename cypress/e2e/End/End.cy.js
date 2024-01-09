@@ -54,31 +54,29 @@ describe('End integration tests', () => {
         cy.contains('Menu Principal').click()
         cy.get('.logo').should('exist').and('be.visible')
     });
-    Cypress._.times(50, () => {
 
-        it.only('takes player back to game after click JOGAR NOVAMENTE', () => {
-            cy.startGameInHomepage('cypress')
+    it('takes player back to game after click JOGAR NOVAMENTE', () => {
+        cy.startGameInHomepage('cypress')
 
-            cy.get('[name="heart"]').should('have.length', 3)
-            let answer
+        cy.get('[name="heart"]').should('have.length', 3)
+        let answer
+        cy.wait('@AnswerFetch').then((interception) => {
+            answer = interception.request.headers.answer
             cy.wait('@AnswerFetch').then((interception) => {
                 answer = interception.request.headers.answer
-                cy.wait('@AnswerFetch').then((interception) => {
-                    answer = interception.request.headers.answer
-                    cy.get('[name="hint"]').click()
-                    cy.get('.formsHint button').then((buttons) => {
-                        const correctButton = buttons.filter(`:contains("${answer}")`);
-                        const incorrectButton = buttons.not(correctButton);
-                        cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
-                    });
+                cy.get('[name="hint"]').click()
+                cy.get('.formsHint button').then((buttons) => {
+                    const correctButton = buttons.filter(`:contains("${answer}")`);
+                    const incorrectButton = buttons.not(correctButton);
+                    cy.wrap(incorrectButton).first().click().should('have.css', 'background-color', 'rgb(255, 0, 0)')
                 });
             });
-            guessTheFlagIncorrectly()
-            guessTheFlagIncorrectly()
-            cy.contains('Jogar Novamente').click()
-            cy.contains('Pontuação: 0').should('be.visible')
         });
-    })
+        guessTheFlagIncorrectly()
+        guessTheFlagIncorrectly()
+        cy.contains('Jogar Novamente').click()
+        cy.contains('Pontuação: 0').should('be.visible')
+    });
     it('gets tha username correctly', () => {
         const username = faker.internet.userName()
         cy.startGameInHomepage(username)
