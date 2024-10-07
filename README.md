@@ -1,4 +1,7 @@
 # 🚩 Guess The Flag!
+<p align="center">
+  <img alt="image" src="img.png" width="60%">
+</p>
 
 Web game developed with the purpose of practicing and training knowledge in recognizing flags of other countries!
 
